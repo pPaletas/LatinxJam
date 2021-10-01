@@ -7,7 +7,9 @@ public class PlayerMovement : MonoBehaviour
 
     public CharacterController controller;
 
-    public float movementSpeed = 5;
+    private float movementSpeed;
+    public float currentMovementSpeed;
+
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
 
@@ -18,9 +20,31 @@ public class PlayerMovement : MonoBehaviour
     Vector3 velocity;
     bool isGrounded;
 
-    void Update()
+    CameraView cameraScript;
+
+    private void Awake()
     {
-        isGrounded = Physics.CheckSphere(GroundDetector.position, groundDistance, groundMask);
+        cameraScript = GetComponentInChildren<CameraView>();
+    }
+
+    private void Start()
+    {
+        movementSpeed = currentMovementSpeed;
+    }
+
+    public void DisablePlayerMovement()
+    {
+            movementSpeed = 0f;
+    }
+    
+    public void EnablePlayerMovement()
+    {
+        movementSpeed = currentMovementSpeed;
+    }
+
+    public void Update()
+    {
+          isGrounded = Physics.CheckSphere(GroundDetector.position, groundDistance, groundMask);
 
         if(isGrounded && velocity.y < 0)
         {
@@ -42,5 +66,7 @@ public class PlayerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
+
+        Debug.Log(isGrounded);
     }
 }

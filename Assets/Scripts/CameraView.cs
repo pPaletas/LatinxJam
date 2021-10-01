@@ -5,14 +5,26 @@ using UnityEngine;
 public class CameraView : MonoBehaviour
 {
 
-    public float mouseSensitivity = 100f;
+    private float mouseSensitivity;
+    public float currentMouseSensitivity;
 
     public Transform playerBody;
     private float rotationX = 0f;
 
-    void Start()
+    private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        mouseSensitivity = currentMouseSensitivity;
+    }
+
+    public void DisableCameraControl()
+    {
+        mouseSensitivity = 0f;
+    }
+
+    public void EnableCameraControl()
+    {
+        mouseSensitivity = currentMouseSensitivity;
     }
 
     void Update()
