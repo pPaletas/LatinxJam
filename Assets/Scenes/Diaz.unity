@@ -134,9 +134,10 @@ GameObject:
   - component: {fileID: 178008397}
   - component: {fileID: 178008396}
   - component: {fileID: 178008398}
+  - component: {fileID: 178008399}
   m_Layer: 0
   m_Name: FirstPersonPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,7 +156,7 @@ CharacterController:
   m_Height: 2.5
   m_Radius: 0.6
   m_SlopeLimit: 45
-  m_StepOffset: 0.6
+  m_StepOffset: 0.8
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -189,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 178008396}
-  movementSpeed: 12
+  currentMovementSpeed: 15
   gravity: -25
   jumpHeight: 2.5
   GroundDetector: {fileID: 945331826}
@@ -197,6 +198,18 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &178008399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178008395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be51735e9a3f5c449bf3788bd0aeb5dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &945331825
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +234,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945331825}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.392, z: 0}
+  m_LocalPosition: {x: 0, y: -1.177, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 178008397}
@@ -547,8 +560,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.7131761, z: 0.85971993}
-  m_Center: {x: 0, y: 0.02892294, z: -0.0063385963}
+  m_Size: {x: 1, y: 1.6, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1547876338
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,13 +730,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628103357}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.4178664, y: -0.5817089, z: 0.5078146, w: 0.47867197}
   m_LocalPosition: {x: 4.071, y: 19.21, z: 0.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 82.24, y: -101.1, z: 0}
 --- !u!114 &1628103360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -943,7 +956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627bcc312b3eec943ade695fad33d0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 150
+  currentMouseSensitivity: 160
   playerBody: {fileID: 178008397}
 --- !u!114 &2006121904
 MonoBehaviour:
