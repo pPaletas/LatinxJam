@@ -5,8 +5,13 @@ using UnityEngine;
 public class CameraView : MonoBehaviour
 {
 
-    private float mouseSensitivity;
-    public float currentMouseSensitivity;
+    public float mouseSensitivity;
+
+    private float mouseX;
+    private float mouseY;
+    private bool enabledCamera = true;
+
+    public Transform target;
 
     public Transform playerBody;
     private float rotationX = 0f;
@@ -14,28 +19,33 @@ public class CameraView : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        mouseSensitivity = currentMouseSensitivity;
     }
 
     public void DisableCameraControl()
     {
-        mouseSensitivity = 0f;
+        enabled = false;
     }
 
     public void EnableCameraControl()
     {
-        mouseSensitivity = currentMouseSensitivity;
+        enabled = true;
     }
 
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        rotationX -= mouseY;
-        rotationX = Mathf.Clamp(rotationX, -90f, 90f);
+        if(enabledCamera)
+        {
+            mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+            mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
-        playerBody.Rotate(Vector3.up * mouseX);
+            rotationX -= mouseY;
+            rotationX = Mathf.Clamp(rotationX, -90f, 90f);
+
+            transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
+            playerBody.Rotate(Vector3.up * mouseX);
+        }
+
     }
+    
 }

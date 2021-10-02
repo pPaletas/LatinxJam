@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
 
     public CharacterController controller;
 
+    public Transform target;
+    
     private float movementSpeed;
     public float currentMovementSpeed;
 
@@ -30,11 +32,12 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         movementSpeed = currentMovementSpeed;
+        
     }
 
     public void DisablePlayerMovement()
     {
-            movementSpeed = 0f;
+        movementSpeed = 0f;
     }
     
     public void EnablePlayerMovement()
@@ -68,5 +71,15 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
 
         Debug.Log(isGrounded);
+
+               
     }
+
+    public void LookAt(Vector3 targetPosition)
+    {
+        targetPosition = new Vector3(targetPosition.x, transform.position.y, targetPosition.z);
+
+        transform.LookAt(targetPosition);
+    }
+
 }
