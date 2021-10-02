@@ -20,8 +20,6 @@ public class EnemyMovement : MonoBehaviour
         navMeshAgent.destination = movePositionTransform.position;
 
         navMeshAgent.stoppingDistance = 2.5f;
-
     }
-
-    
+        
 }
