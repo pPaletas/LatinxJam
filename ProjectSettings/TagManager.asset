@@ -4,17 +4,21 @@
 TagManager:
   serializedVersion: 2
   tags:
+
+  - Rock
+
   - Prop
+
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Culling
   - Water
   - UI
   - Ground
-  - 
-  - 
+  - Player
+  - Rock
   - 
   - 
   - 
