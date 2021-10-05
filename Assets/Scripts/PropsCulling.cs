@@ -4,33 +4,27 @@ using UnityEngine;
 
 public class PropsCulling : MonoBehaviour
 {
-    [SerializeField] float cullingRadius;
-    [SerializeField] Camera playerCamera;
+    [SerializeField] private Camera playerCamera;
 
-    Transform[] cullingObjects;
+    [SerializeField] private float cullingRadius;
+    [SerializeField] private int cullingObjectsLayer;
+
+    List<GameObject> cullingObjects = new List<GameObject>();
     CullingGroup cullingGroup;
 
     private void Awake()
     {
-        FindCullingObjects();
+        FindObjectsInLayer(cullingObjectsLayer);
         SetCullingUp();
     }
 
-    private void OnDestroy() {
-        cullingGroup.Dispose();
-    }
-
-    void FindCullingObjects()
+    void FindObjectsInLayer(int layer)
     {
-        Transform objectsParent = GameObject.Find("Props").transform;
-        cullingObjects = new Transform[objectsParent.childCount];
+        GameObject[] allGameObjects = GameObject.FindObjectsOfType<GameObject>();
 
-        for (int p = 0; p < objectsParent.childCount; p++)
+        for (int g = 0; g < allGameObjects.Length; g++)
         {
-            Transform child = objectsParent.GetChild(p);
-
-            child.gameObject.SetActive(false);//Por defecto todos estan inactivos
-            cullingObjects[p] = child;
+            if (allGameObjects[g].layer == cullingObjectsLayer) cullingObjects.Add(allGameObjects[g]);
         }
     }
 
@@ -40,18 +34,18 @@ public class PropsCulling : MonoBehaviour
         cullingGroup.targetCamera = playerCamera;
 
         cullingGroup.SetBoundingSpheres(GetSpheres());
-        cullingGroup.SetBoundingSphereCount(cullingObjects.Length);
+        cullingGroup.SetBoundingSphereCount(cullingObjects.Count);
 
         cullingGroup.onStateChanged += HideNonVisible;
     }
 
     BoundingSphere[] GetSpheres()
     {
-        BoundingSphere[] boundingSpheres = new BoundingSphere[1000];        
+        BoundingSphere[] boundingSpheres = new BoundingSphere[1000];
 
-        for (int o = 0; o < cullingObjects.Length; o++)
+        for (int o = 0; o < cullingObjects.Count; o++)
         {
-            boundingSpheres[o] = new BoundingSphere(cullingObjects[o].position,cullingRadius);
+            boundingSpheres[o] = new BoundingSphere(cullingObjects[o].transform.position, cullingRadius);
         }
 
         return boundingSpheres;
@@ -62,12 +56,18 @@ public class PropsCulling : MonoBehaviour
         cullingObjects[evt.index].gameObject.SetActive(evt.isVisible);
     }
 
-    private void OnDrawGizmos() {
-        if(!Application.isPlaying) return;
+    private void OnDestroy()//Siempre hay que asegurarse de hacer Dispose al destruir el objeto.
+    {   
+        cullingGroup.Dispose();
+    }
 
-        for (int i = 0; i < cullingObjects.Length; i++)
+    private void OnDrawGizmos()
+    {
+        if (!Application.isPlaying) return;
+
+        for (int i = 0; i < cullingObjects.Count; i++)
         {
-            Gizmos.DrawWireSphere(cullingObjects[i].position,cullingRadius);
+            Gizmos.DrawWireSphere(cullingObjects[i].transform.position, cullingRadius);
         }
     }
 
