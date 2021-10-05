@@ -7,6 +7,10 @@ public class PlayerMovement : MonoBehaviour
 
     public CharacterController controller;
 
+    private PlayerManager playerManager;
+
+    public Transform target;
+    
     private float movementSpeed;
     public float currentMovementSpeed;
 
@@ -16,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform GroundDetector;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
+    public LayerMask rockMask;
+    
 
     Vector3 velocity;
     bool isGrounded;
