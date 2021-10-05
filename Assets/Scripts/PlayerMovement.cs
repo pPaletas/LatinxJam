@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
 
     public CharacterController controller;
 
+    private PlayerManager playerManager;
+
     public Transform target;
     
     private float movementSpeed;
@@ -18,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform GroundDetector;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
+    public LayerMask rockMask;
+    
 
     Vector3 velocity;
     bool isGrounded;
@@ -47,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Update()
     {
-          isGrounded = Physics.CheckSphere(GroundDetector.position, groundDistance, groundMask);
+        isGrounded = Physics.CheckSphere(GroundDetector.position, groundDistance, groundMask);
 
         if(isGrounded && velocity.y < 0)
         {
@@ -66,13 +70,11 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
 
+
+
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
-
-        Debug.Log(isGrounded);
-
-               
     }
 
     public void LookAt(Vector3 targetPosition)

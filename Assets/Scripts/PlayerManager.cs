@@ -40,6 +40,4 @@ public class PlayerManager : MonoBehaviour
         Debug.Log(targetPosition);
     }
 
-
-
 }

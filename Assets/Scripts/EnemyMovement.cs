@@ -18,8 +18,6 @@ public class EnemyMovement : MonoBehaviour
     private void Update()
     {
         navMeshAgent.destination = movePositionTransform.position;
-
-        navMeshAgent.stoppingDistance = 2.5f;
     }
         
 }
