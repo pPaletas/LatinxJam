@@ -10,7 +10,6 @@ public class InteractableTree : InteractableObject
     [SerializeField] private Camera plrCamera;
     [SerializeField] private Vector3 fallenTreeRotation;
     [SerializeField] private AudioSource fallingTreeSound;
-    [SerializeField] private GameObject interactionUI;
 
     public override void OnVisionEnter()
     {
@@ -26,17 +25,23 @@ public class InteractableTree : InteractableObject
     {
         FadePanel.Instance.Fade(4f);
         FadePanel.Instance.OnBlackScreen.AddListener(TreeChop);
-        interactionUI.SetActive(false);//Desaparecer efecto de Highlight
+        FadePanel.Instance.OnComplete.AddListener(GetPlayerMovementBack);
 
+        //Disable Highlight
         IsInteractable = false;//No más interacciones
     }
 
     void TreeChop()
     {
-        //PlayerManager.Instance.DisableControls();
-        //PlayerManager.Instance.LookAt(transform.position);
         if (fallingTreeSound != null) fallingTreeSound.Play();//Suena si existe audioclip
         transform.rotation = Quaternion.Euler(fallenTreeRotation);
-        plrCamera.transform.LookAt(transform.position);
+
+        PlayerManager.Instance.DisableControls();
+        PlayerManager.Instance.LookAt(transform.GetChild(0).position);//Mira hacia el puente
+    }
+
+    void GetPlayerMovementBack()
+    {
+        PlayerManager.Instance.EnableControls();
     }
 }

@@ -7,8 +7,6 @@ public class PlayerMovement : MonoBehaviour
 
     public CharacterController controller;
 
-    public Transform target;
-    
     private float movementSpeed;
     public float currentMovementSpeed;
 
@@ -32,14 +30,13 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         movementSpeed = currentMovementSpeed;
-        
     }
 
     public void DisablePlayerMovement()
     {
         movementSpeed = 0f;
     }
-    
+
     public void EnablePlayerMovement()
     {
         movementSpeed = currentMovementSpeed;
@@ -47,9 +44,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void Update()
     {
-          isGrounded = Physics.CheckSphere(GroundDetector.position, groundDistance, groundMask);
+        isGrounded = Physics.CheckSphere(GroundDetector.position, groundDistance, groundMask);
 
-        if(isGrounded && velocity.y < 0)
+        if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
@@ -61,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(movement * movementSpeed * Time.deltaTime);
 
-        if(Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
@@ -69,16 +66,11 @@ public class PlayerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
-
-        Debug.Log(isGrounded);
-
-               
     }
 
     public void LookAt(Vector3 targetPosition)
     {
         targetPosition = new Vector3(targetPosition.x, transform.position.y, targetPosition.z);
-
         transform.LookAt(targetPosition);
     }
 
