@@ -5,10 +5,9 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] private Transform movePositionTransform;
-
-    private NavMeshAgent navMeshAgent;
-
+    public Transform movePositionTransform;
+    [HideInInspector]public NavMeshAgent navMeshAgent;
+    public bool canMove = false;
 
     private void Awake()
     {
@@ -17,7 +16,14 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        navMeshAgent.destination = movePositionTransform.position;
+        if (canMove)
+        {
+            if (navMeshAgent.isStopped) navMeshAgent.isStopped = false;
+            navMeshAgent.destination = movePositionTransform.position;
+        }
+        else if (!navMeshAgent.isStopped)
+        {
+            navMeshAgent.isStopped = true;
+        }
     }
-        
 }
