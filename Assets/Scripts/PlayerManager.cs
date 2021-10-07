@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    [HideInInspector]public bool goodEnding;
+
     private PlayerMovement movementScript;
     private CameraView cameraScript;
 

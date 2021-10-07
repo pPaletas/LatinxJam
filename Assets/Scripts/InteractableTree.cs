@@ -13,7 +13,7 @@ public class InteractableTree : InteractableObject
 
     public override void OnVisionEnter()
     {
-        //Highlight
+        //Highlight PARTICULAS???
     }
 
     public override void OnVisionLeave()
@@ -23,6 +23,7 @@ public class InteractableTree : InteractableObject
 
     public override void OnTriggerKey()
     {
+        PlayerManager.Instance.goodEnding = false;
         FadePanel.Instance.Fade(4f);
         FadePanel.Instance.OnBlackScreen.AddListener(TreeChop);
         FadePanel.Instance.OnComplete.AddListener(GetPlayerMovementBack);
