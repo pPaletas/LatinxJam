@@ -4,21 +4,19 @@
 TagManager:
   serializedVersion: 2
   tags:
-
   - Rock
-
-  - Prop
-
+  - EnemyStarter
+  - AggressiveState
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Culling
+  - Ground
   - Water
   - UI
-  - Ground
-  - Player
-  - Rock
+  - 
+  - 
+  - 
   - 
   - 
   - 
