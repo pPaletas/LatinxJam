@@ -246,7 +246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be51735e9a3f5c449bf3788bd0aeb5dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1957077622}
 --- !u!1 &661328865
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,7 +1169,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 0.94509804}
-  m_Intensity: 26310.914
+  m_Intensity: 0.73220545
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1254,7 +1253,7 @@ MonoBehaviour:
   m_PointlightHDType: 0
   m_SpotLightShape: 0
   m_AreaLightShape: 0
-  m_Intensity: 26310.914
+  m_Intensity: 0.73220545
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -1606,7 +1605,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivity: 160
-  target: {fileID: 1957077622}
   playerBody: {fileID: 178008397}
 --- !u!114 &2006121904
 MonoBehaviour:
