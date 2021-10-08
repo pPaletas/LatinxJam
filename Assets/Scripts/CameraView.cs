@@ -11,8 +11,6 @@ public class CameraView : MonoBehaviour
     private float mouseY;
     private bool enabledCamera = true;
 
-    public Transform target;
-
     public Transform playerBody;
     private float rotationX = 0f;
 
