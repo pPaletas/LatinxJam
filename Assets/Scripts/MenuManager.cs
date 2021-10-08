@@ -8,18 +8,16 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private float duration;
     [SerializeField] private GameObject[] texts;
     [SerializeField] private RawImage img;
-    
+    [SerializeField] private GameObject playerPrefab;
 
     private void Awake()
     {
         img.CrossFadeAlpha(0, duration, false);
-
-        PlayerManager.Instance.DisableControls();
     }
 
     public void StartGame()
     {
-        PlayerManager.Instance.EnableControls();
+        Instantiate(playerPrefab);
     }
 
     public void Settings()

@@ -123,6 +123,8 @@ GameObject:
   - component: {fileID: 2703230787687281844}
   - component: {fileID: 2703230787687281846}
   - component: {fileID: 2703230787687281847}
+  - component: {fileID: 384528044}
+  - component: {fileID: 384528048}
   m_Layer: 0
   m_Name: FirstPersonPlayer
   m_TagString: Player
@@ -138,7 +140,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2703230787687281843}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.71, z: 0}
+  m_LocalPosition: {x: -3479.96, y: 2.22, z: 219}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2703230787736647766}
@@ -187,7 +189,15 @@ MonoBehaviour:
   groundDistance: 0.3
   groundMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 8
+  rockMask:
+    serializedVersion: 2
+    m_Bits: 0
+  breatheAudio: {fileID: 0}
+  movementAudio: {fileID: 0}
+  walkAudio: {fileID: 8300000, guid: c98cb44ddaa0a57458c1fad6582070a6, type: 3}
+  jumpAudio: {fileID: 8300000, guid: 8341468e6e7634f4898ab7068c18d8ff, type: 3}
+  fallAudio: {fileID: 0}
 --- !u!114 &2703230787687281847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +210,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be51735e9a3f5c449bf3788bd0aeb5dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  goodEnding: 0
+  scrollsToOpen: 2
+--- !u!114 &384528044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2703230787687281843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e07ed47fb93a0b48b5b60e5d64abbef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallingRockAudio: {fileID: 0}
+  timeTillShake: 0
+  timeTillFall: 0
+  timeTillStop: 0
+--- !u!114 &384528048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2703230787687281843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c38413c83525d5478eb2d85f6c4b1bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2703230787736647763
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +302,7 @@ Camera:
   field of view: 70
   orthographic: 0
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -413,7 +452,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivity: 160
-  target: {fileID: 0}
   playerBody: {fileID: 2703230787687281845}
 --- !u!1 &2703230788444451338
 GameObject:

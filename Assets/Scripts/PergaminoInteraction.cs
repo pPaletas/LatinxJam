@@ -4,6 +4,8 @@ using UnityEngine.UI;
 public class PergaminoInteraction : MonoBehaviour
 {
     private bool isPlaying;
+    private GameObject entryObject;
+    [SerializeField] private AudioSource entryAudio;
     
     //Para el imageholder colocar el image que esta dentro del CanvasPergamino
     [SerializeField] private GameObject scrollCanvas;
@@ -18,14 +20,32 @@ public class PergaminoInteraction : MonoBehaviour
     [SerializeField] private AudioClip clipEspañol;
     [SerializeField] private AudioClip clipIngles;
 
+    private bool alreadyCollected = false;
+
+    private void Awake()
+    {
+        entryObject = GameObject.FindGameObjectWithTag("EntryObject");
+    }
+
     private void Update()
     {
-        if (isPlaying)
+        if (isPlaying && !mainSceneAudioSource.isPlaying)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 StopScrollInteraction();
+                PlayerManager.Instance.EnableControls();
+                OpenEntry();
             }
+            
+        }
+    }
+
+    void OpenEntry() {
+        if (PlayerManager.Instance.GetCollectedScrolls() >= PlayerManager.Instance.scrollsToOpen)
+        {
+            Destroy(entryObject);
+            entryAudio.Play();
         }
     }
 
@@ -48,6 +68,8 @@ public class PergaminoInteraction : MonoBehaviour
             mainSceneAudioSource.Play();
             imageHolder.sprite = pergaminoEspañol;
         }
+
+        PlayerManager.Instance.DisableControls();
     }
 
     private void StopScrollInteraction()
@@ -57,6 +79,17 @@ public class PergaminoInteraction : MonoBehaviour
         mainSceneAudioSource.Stop();
     }
 
+    private void AddCollectedScroll()
+    {
+        if (!alreadyCollected)
+        {
+            alreadyCollected = true;
+            StartScrollInteraction();
+            PlayerManager.Instance.AddCollectedScroll();
+        }
+        
+    }
+
 
     private void OnTriggerStay(Collider other)
     {
@@ -64,9 +97,11 @@ public class PergaminoInteraction : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) && !isPlaying)
             {
-                StartScrollInteraction();
+                AddCollectedScroll();
             }
         }
     }
     
+
+
 }

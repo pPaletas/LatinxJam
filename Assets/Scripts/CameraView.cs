@@ -17,6 +17,7 @@ public class CameraView : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void DisableCameraControl()
