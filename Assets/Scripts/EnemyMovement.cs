@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public Transform movePositionTransform;
-    [HideInInspector]public NavMeshAgent navMeshAgent;
+    [HideInInspector] public Transform movePositionTransform;
+    [HideInInspector] public NavMeshAgent navMeshAgent;
     public bool canMove = false;
 
     private void Awake()

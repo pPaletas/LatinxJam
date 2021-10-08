@@ -4,21 +4,19 @@
 TagManager:
   serializedVersion: 2
   tags:
-
   - Rock
   - EnemyStarter
   - AggressiveState
-
+  - CheckPoint
+  - EntryObject
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-
   - Ground
   - Water
   - UI
   - 
-
   - 
   - 
   - 

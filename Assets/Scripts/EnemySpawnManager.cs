@@ -23,6 +23,8 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] private float aliveTimeMax = 1f;
     [SerializeField] private float aggressiveSpeedMultiplier = 2f;
 
+    [SerializeField] private AudioSource enemyAudio;
+
     bool alreadySpawned = false;
     bool alreadyAggressive = false;
 
@@ -36,6 +38,7 @@ public class EnemySpawnManager : MonoBehaviour
     {
         if(alreadySpawned) return;
         alreadySpawned = true;
+        enemyMovement.movePositionTransform = GameObject.FindGameObjectWithTag("Player").transform;
         StartCoroutine(AsyncStartFollowing());
     }
 
@@ -70,6 +73,15 @@ public class EnemySpawnManager : MonoBehaviour
 
         enemyMovement.canMove = !enemyMovement.canMove;
         body.SetActive(enemyMovement.canMove);//Desaparece el cuerpo
+                
+        if (enemyMovement.canMove)
+        {
+            enemyAudio.Play();
+        }
+        else
+        {
+            enemyAudio.Stop();
+        }
     }
 
     bool SetRandomPosition()
@@ -93,8 +105,8 @@ public class EnemySpawnManager : MonoBehaviour
     {
         Vector2 circleRandom = Random.insideUnitSphere;
         Vector3 position = new Vector3(circleRandom.x,0f,circleRandom.y).normalized;
-
-        return circleRandom * spawnRadius;
+        
+        return position * spawnRadius;
     }
 
     private void OnDrawGizmos() {

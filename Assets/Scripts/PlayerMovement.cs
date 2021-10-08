@@ -21,7 +21,14 @@ public class PlayerMovement : MonoBehaviour
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
     public LayerMask rockMask;
-    
+
+    private GameObject audioParent;
+
+    private AudioSource breatheAudio;
+    private AudioSource movementAudio;
+
+    [SerializeField] private AudioClip walkAudio;
+    [SerializeField] private AudioClip jumpAudio;
 
     Vector3 velocity;
     bool isGrounded;
@@ -31,11 +38,17 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         cameraScript = GetComponentInChildren<CameraView>();
+        audioParent = GameObject.Find("PlayerAudio");
+        breatheAudio = audioParent.transform.GetChild(0).GetComponent<AudioSource>();
+        movementAudio = audioParent.transform.GetChild(1).GetComponent<AudioSource>();
+        movementSpeed = currentMovementSpeed;
+
+        
     }
 
     private void Start()
     {
-        movementSpeed = currentMovementSpeed;
+        breatheAudio.Play();
     }
 
     public void DisablePlayerMovement()
@@ -50,6 +63,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void Update()
     {
+        
+
         isGrounded = Physics.CheckSphere(GroundDetector.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
@@ -62,16 +77,39 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 movement = transform.right * x + transform.forward * z;
 
+        
+
+        if (Mathf.Abs(movement.sqrMagnitude) > 0 && isGrounded && velocity.y <= 0)
+        {
+            PlayAudio(walkAudio, true);
+        }
+        else if(Mathf.Abs(movement.sqrMagnitude) <= 0 && movementAudio.clip == walkAudio && movementAudio.isPlaying)
+        {
+            movementAudio.Stop();
+        }
+
         controller.Move(movement * movementSpeed * Time.deltaTime);
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+            movementAudio.Stop();
+            PlayAudio(jumpAudio, false);
         }
 
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    private void PlayAudio(AudioClip clip, bool loop)
+    {
+        if (movementAudio.clip != clip || !movementAudio.isPlaying)
+        {
+            movementAudio.clip = clip;
+            movementAudio.loop = loop;
+            movementAudio.Play();
+        }
     }
 
     public void LookAt(Vector3 targetPosition)
