@@ -29,6 +29,10 @@ public class CollisionInteractions : MonoBehaviour
         {
             EnemySpawnManager.Instance.MakeAgressive(!PlayerManager.Instance.goodEnding);
         }
+        else if (other.gameObject.CompareTag("CheckPoint"))
+        {
+            CheckpointManager.Instance.SetTransformAsCheckpoint(other.transform);
+        }
     }
 
     IEnumerator AsyncFall(Rigidbody rigidbody_)

@@ -37,6 +37,13 @@ public class PlayerManager : MonoBehaviour
         cameraScript.DisableCameraControl();
     }
 
+    public void SetPosition(Vector3 position)
+    {
+        movementScript.controller.enabled = false;
+        transform.position = position;
+        movementScript.controller.enabled = true;
+    }
+
     public void LookAt(Vector3 targetPosition)
     {
         movementScript.LookAt(targetPosition);
