@@ -65,7 +65,6 @@ public class EnemyMovement : MonoBehaviour
 
     bool IsCloseEnough(Vector3 magnitude, float distance)
     {
-        Debug.Log(Mathf.Pow(distance, 2f));
         return Mathf.Abs(magnitude.sqrMagnitude) <= Mathf.Pow(distance, 2f);
     }
 }
