@@ -23,6 +23,7 @@ public class CollisionInteractions : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("EnemyStarter"))
         {
+            other.enabled = false;
             EnemySpawnManager.Instance.StartFollowing();
         }
         else if (other.gameObject.CompareTag("AggressiveState"))

@@ -47,7 +47,6 @@ public class EnemySpawnManager : MonoBehaviour
         if (alreadySpawned) return;
         alreadySpawned = true;
         enemyMovement.movePositionTransform = GameObject.FindGameObjectWithTag("Player").transform;
-
         StartCoroutine(AsyncStartFollowing());
     }
 
@@ -62,6 +61,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     private IEnumerator AsyncStartFollowing()
     {
+        Debug.Log(enemyMovement.canMove);
         yield return new WaitForSeconds(spawnAfter);
 
         while (ableToSpawn)
@@ -74,8 +74,6 @@ public class EnemySpawnManager : MonoBehaviour
                 yield return new WaitForSeconds(Random.Range(spawnFreqMin, spawnFreqMax));
             }
         }
-
-        alreadySpawned = false;//Deshabilitar el spawn
     }
 
     void ChangeAliveState()
@@ -95,8 +93,8 @@ public class EnemySpawnManager : MonoBehaviour
 
     public void OnCatchPlayer()
     {
-        ableToSpawn = false;
-        enemyMovement.canMove = false;
+        ableToSpawn = false;//Para la corrutina
+        enemyMovement.canMove = false;//Para al enemigo
         PlayerManager.Instance.LookAt(transform.GetChild(1).position);//Mira a los ojos
     }
 
@@ -104,6 +102,7 @@ public class EnemySpawnManager : MonoBehaviour
     {
         enemyMovement.canMove = true;
         ChangeAliveState();//Desaparece
+        alreadySpawned = false;//No ha spawneado
     }
 
     void WaitForPosition()
