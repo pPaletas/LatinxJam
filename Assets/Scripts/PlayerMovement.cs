@@ -42,8 +42,6 @@ public class PlayerMovement : MonoBehaviour
         breatheAudio = audioParent.transform.GetChild(0).GetComponent<AudioSource>();
         movementAudio = audioParent.transform.GetChild(1).GetComponent<AudioSource>();
         movementSpeed = currentMovementSpeed;
-
-        
     }
 
     private void Start()
