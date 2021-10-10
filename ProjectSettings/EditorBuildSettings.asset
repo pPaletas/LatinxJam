@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Main_NoTocar.unity
+    guid: 5e9a0fc81c953ed43ba558b85ea5c66d
   m_configObjects: {}
