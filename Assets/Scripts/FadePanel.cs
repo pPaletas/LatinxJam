@@ -6,38 +6,32 @@ using UnityEngine.Events;
 
 public class FadePanel : MonoBehaviour
 {
-    #region Singleton
-    public static FadePanel Instance;
-    #endregion
-
     RawImage rawImage;
-    const float FADEDURATION = 0.4f;
 
     public UnityEvent OnBlackScreen;
     public UnityEvent OnComplete;
 
-    private void Awake() {
-        Instance = this;
-
+    private void Awake()
+    {
         rawImage = GetComponent<RawImage>();
-        rawImage.CrossFadeAlpha(0f,0f,true);//Hace al panel invisible
+        rawImage.CrossFadeAlpha(0f, 0f, true);//Hace al panel invisible
     }
 
-    public void Fade(float secs)
+    public void Fade(float fadeTime, float blackTime)
     {
-        StartCoroutine(AFade(secs));
+        StartCoroutine(AsyncFade(fadeTime,blackTime));
     }
 
-    IEnumerator AFade(float secs)
+    IEnumerator AsyncFade(float fadeTime,float blackTime)
     {
-        rawImage.CrossFadeAlpha(1f,FADEDURATION,true);
-        yield return new WaitForSeconds(FADEDURATION);
+        rawImage.CrossFadeAlpha(1f, fadeTime, true);
+        yield return new WaitForSeconds(fadeTime);
 
         OnBlackScreen.Invoke();
-        yield return new WaitForSeconds(secs);
+        yield return new WaitForSeconds(blackTime);
 
-        rawImage.CrossFadeAlpha(0f,FADEDURATION,true);
-        yield return new WaitForSeconds(FADEDURATION);
+        rawImage.CrossFadeAlpha(0f, fadeTime, true);
+        yield return new WaitForSeconds(fadeTime);
         OnComplete.Invoke();
     }
 }

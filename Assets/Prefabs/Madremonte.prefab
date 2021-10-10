@@ -41,7 +41,6 @@ GameObject:
   - component: {fileID: 7006925458490593353}
   - component: {fileID: 7006925458490593354}
   - component: {fileID: 7006925458490593355}
-  - component: {fileID: 7006925458490593352}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -112,19 +111,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7006925458490593352
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7006925458490593366}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7006925458619828136
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,7 +122,7 @@ GameObject:
   - component: {fileID: 7006925458619828138}
   - component: {fileID: 7006925458619828141}
   - component: {fileID: 7006925458619828139}
-  - component: {fileID: 7006925458619828140}
+  - component: {fileID: 7612293626809647065}
   m_Layer: 0
   m_Name: Madremonte
   m_TagString: Untagged
@@ -152,11 +138,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7006925458619828136}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.83, y: 2.54, z: 20.12}
+  m_LocalPosition: {x: -3446.3108, y: 0.24123323, z: 228.39847}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7006925458782042303}
   - {fileID: 6355928196650822311}
+  - {fileID: 6748443995848570344}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -170,18 +157,18 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 10
+  m_Acceleration: 100
   avoidancePriority: 50
-  m_AngularSpeed: 180
-  m_StoppingDistance: 2.5
+  m_AngularSpeed: 360
+  m_StoppingDistance: 3
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 1
-  m_ObstacleAvoidanceType: 3
+  m_ObstacleAvoidanceType: 2
 --- !u!114 &7006925458619828139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,13 +181,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf089ec492d862049ae8493b84c89b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movePositionTransform: {fileID: 0}
-  navMeshAgent: {fileID: 0}
-  canMove: 0
-  distanceToKillPlayer: 0
-  fadePanel: {fileID: 0}
-  fadeTime: 0
---- !u!114 &7006925458619828140
+  enemyBody: {fileID: 7006925458782042300}
+  spawnAfter: 0
+  spawnRange: 50
+  spawnFreq: 5
+  aliveTime: 10
+  navMeshMask: 3
+--- !u!114 &7612293626809647065
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,18 +196,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7006925458619828136}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe502d313df9ae541bbe80b1729f0069, type: 3}
+  m_Script: {fileID: 11500000, guid: 2601064b4f9b4754dbcd939c19b6d8db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ableToSpawn: 1
-  body: {fileID: 7006925458782042300}
-  spawnRadius: 50
-  spawnAfter: 0
-  spawnFreqMin: 1
-  spawnFreqMax: 2
-  aliveTimeMin: 5
-  aliveTimeMax: 10
-  aggressiveSpeedMultiplier: 2
+  isAttacking: 0
+  rangeToKill: 4
+  fadeTime: 3
+  blackTime: 2
 --- !u!1 &7006925458782042300
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +227,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7006925458782042300}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3446.3108, y: -0.24123323, z: -228.39847}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7006925459560086949}
@@ -264,7 +246,6 @@ GameObject:
   - component: {fileID: 7006925459560086949}
   - component: {fileID: 7006925459560086950}
   - component: {fileID: 7006925459560086951}
-  - component: {fileID: 7006925459560086948}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -335,17 +316,130 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7006925459560086948
-CapsuleCollider:
+--- !u!1 &7949469681186618918
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7006925459560086946}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6748443995848570344}
+  - component: {fileID: 5188821611936013931}
+  m_Layer: 0
+  m_Name: PersecutionAudio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6748443995848570344
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7949469681186618918}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7006925458619828138}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &5188821611936013931
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7949469681186618918}
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 5ff2e324bd8c90c4d98c5eadd8fc9ac7, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 50
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.8
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

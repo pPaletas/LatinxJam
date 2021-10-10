@@ -4,21 +4,14 @@ using UnityEngine;
 
 public class Chest : InteractableObject
 {
-    ParticleSystem particles;
-
-    private void Awake()
-    {
-        particles = GetComponentInChildren<ParticleSystem>();
-    }
-
     public override void OnVisionEnter()
     {
-        particles.Play();
+        transform.GetChild(0).gameObject.SetActive(true);
     }
 
     public override void OnVisionLeave()
     {
-        particles.Stop();
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     private void OnDrawGizmos()

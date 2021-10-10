@@ -5,14 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
-    [HideInInspector]public bool goodEnding;
+    [HideInInspector] public bool goodEnding;
     public int scrollsToOpen;
 
     private PlayerMovement movementScript;
     private CameraView cameraScript;
 
     private static PlayerManager instance;
-   
+
     public static PlayerManager Instance { private set; get; }
 
     private int collectedScrolls = 0;
@@ -22,7 +22,6 @@ public class PlayerManager : MonoBehaviour
         Instance = this;
         movementScript = GetComponent<PlayerMovement>();
         cameraScript = GetComponentInChildren<CameraView>();
-
     }
 
     public void EnableControls()
@@ -53,5 +52,5 @@ public class PlayerManager : MonoBehaviour
     public int GetCollectedScrolls() => collectedScrolls;
 
     public void AddCollectedScroll() => collectedScrolls += 1;
-    
+
 }

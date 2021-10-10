@@ -8,25 +8,29 @@ using UnityEngine;
 public class InteractableTree : InteractableObject
 {
     [SerializeField] private Camera plrCamera;
-    [SerializeField] private Vector3 fallenTreeRotation;
     [SerializeField] private AudioSource fallingTreeSound;
+    [SerializeField] private FadePanel fallingTreePanel;
+
+    [SerializeField] private Vector3 fallenTreeRotation;
 
     public override void OnVisionEnter()
     {
-        //Highlight PARTICULAS???
+        //Enable Highlight
+        transform.GetChild(1).gameObject.SetActive(true);
     }
 
     public override void OnVisionLeave()
     {
-        //Disable Hightlight
+        //Disable Highlight
+        transform.GetChild(1).gameObject.SetActive(false);
     }
 
     public override void OnTriggerKey()
     {
         PlayerManager.Instance.goodEnding = false;
-        FadePanel.Instance.Fade(4f);
-        FadePanel.Instance.OnBlackScreen.AddListener(TreeChop);
-        FadePanel.Instance.OnComplete.AddListener(GetPlayerMovementBack);
+        fallingTreePanel.Fade(0.4f,4);
+        fallingTreePanel.OnBlackScreen.AddListener(TreeChop);
+        fallingTreePanel.OnComplete.AddListener(GetPlayerMovementBack);
 
         //Disable Highlight
         IsInteractable = false;//No más interacciones

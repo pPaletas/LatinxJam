@@ -139,8 +139,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2703230787687281843}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3479.96, y: 2.22, z: 219}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3529.7, y: 2.22, z: 203.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2703230787736647766}
@@ -181,7 +181,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 2703230787687281844}
-  target: {fileID: 0}
   currentMovementSpeed: 15
   gravity: -25
   jumpHeight: 2.5
@@ -193,11 +192,8 @@ MonoBehaviour:
   rockMask:
     serializedVersion: 2
     m_Bits: 0
-  breatheAudio: {fileID: 0}
-  movementAudio: {fileID: 0}
   walkAudio: {fileID: 8300000, guid: c98cb44ddaa0a57458c1fad6582070a6, type: 3}
   jumpAudio: {fileID: 8300000, guid: 8341468e6e7634f4898ab7068c18d8ff, type: 3}
-  fallAudio: {fileID: 0}
 --- !u!114 &2703230787687281847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,10 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e07ed47fb93a0b48b5b60e5d64abbef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallingRockAudio: {fileID: 0}
-  timeTillShake: 0
-  timeTillFall: 0
-  timeTillStop: 0
+  enemyPrefab: {fileID: 7006925458619828141, guid: 0eb100dd5cf2e8e4fa538013b593f1ef, type: 3}
 --- !u!114 &384528048
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ TagManager:
   - AggressiveState
   - CheckPoint
   - EntryObject
+  - River
   layers:
   - Default
   - TransparentFX

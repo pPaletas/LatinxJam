@@ -9,8 +9,6 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerManager playerManager;
 
-    public Transform target;
-    
     private float movementSpeed;
     public float currentMovementSpeed;
 
@@ -24,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     private GameObject audioParent;
 
-    private AudioSource breatheAudio;
+    // private AudioSource breatheAudio;
     private AudioSource movementAudio;
 
     [SerializeField] private AudioClip walkAudio;
@@ -39,14 +37,14 @@ public class PlayerMovement : MonoBehaviour
     {
         cameraScript = GetComponentInChildren<CameraView>();
         audioParent = GameObject.Find("PlayerAudio");
-        breatheAudio = audioParent.transform.GetChild(0).GetComponent<AudioSource>();
+        // breatheAudio = audioParent.transform.GetChild(0).GetComponent<AudioSource>();
         movementAudio = audioParent.transform.GetChild(1).GetComponent<AudioSource>();
         movementSpeed = currentMovementSpeed;
     }
 
     private void Start()
     {
-        breatheAudio.Play();
+        // breatheAudio.Play();
     }
 
     public void DisablePlayerMovement()
@@ -81,9 +79,9 @@ public class PlayerMovement : MonoBehaviour
         {
             PlayAudio(walkAudio, true);
         }
-        else if(Mathf.Abs(movement.sqrMagnitude) <= 0 && movementAudio.clip == walkAudio && movementAudio.isPlaying)
+        // else if(Mathf.Abs(movement.sqrMagnitude) <= 0 && movementAudio.clip == walkAudio && movementAudio.isPlaying)
         {
-            movementAudio.Stop();
+            // movementAudio.Stop();
         }
 
         controller.Move(movement * movementSpeed * Time.deltaTime);
@@ -91,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
-            movementAudio.Stop();
+            // movementAudio.Stop();
             PlayAudio(jumpAudio, false);
         }
 
@@ -102,11 +100,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayAudio(AudioClip clip, bool loop)
     {
-        if (movementAudio.clip != clip || !movementAudio.isPlaying)
+        // if (movementAudio.clip != clip || !movementAudio.isPlaying)
         {
-            movementAudio.clip = clip;
-            movementAudio.loop = loop;
-            movementAudio.Play();
+            // movementAudio.clip = clip;
+            // movementAudio.loop = loop;
+            // movementAudio.Play();
         }
     }
 

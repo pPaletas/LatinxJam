@@ -6,65 +6,161 @@ using UnityEngine.UI;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [HideInInspector] public Transform movePositionTransform;
-    [HideInInspector] public NavMeshAgent navMeshAgent;
+    #region Singleton
+    public static EnemyMovement Instance;
+    #endregion
 
-    public bool canMove = false;
-    [Header("Player Interaction")]
-    [SerializeField]private float distanceToKillPlayer;
-    [SerializeField]private FadePanel fadePanel;
-    [SerializeField]private float fadeTime; 
+    private NavMeshAgent agent;
+    private AudioSource persecutionAudio;
+    private Transform target;
+    [Header("Spawn")]
+    [SerializeField] private GameObject enemyBody;
+    [SerializeField] private float spawnAfter;
+    [SerializeField] private float spawnRange;
+    [SerializeField] private float spawnFreq;
+    [SerializeField] private float aliveTime;
+    [SerializeField] private float stoppingDistanceQuiet;
+    [SerializeField] private float stoppingDistanceAggresive;
+    [SerializeField] private int navMeshMask;
+    private float twiceHeight;
+    private int currentTries = 0;
+    private bool isFollowing = false;
+    private bool inCycle = false;
+
+    private const int POSITIONTRIES = 10;
 
     private void Awake()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        fadePanel.OnBlackScreen.AddListener(OnScreenBlacked);
-        fadePanel.OnComplete.AddListener(OnFadeFinish);
+        Instance = this;
+
+        agent = GetComponent<NavMeshAgent>();
+        persecutionAudio = GetComponentInChildren<AudioSource>();
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+
+        twiceHeight = agent.height * 2f;
     }
 
     private void Update()
     {
-        if (canMove)
+        Follow();
+    }
+
+    public void StartCycle()
+    {
+        if (!inCycle) inCycle = true;
+        StartCoroutine(AsyncStartCycle());
+    }
+
+    IEnumerator AsyncStartCycle()
+    {
+        while (inCycle)
         {
-            if (navMeshAgent.isStopped) navMeshAgent.isStopped = false;
-            navMeshAgent.destination = movePositionTransform.position;
+            yield return new WaitForSeconds(spawnAfter);
+            isFollowing = true;
+            CalculateNextPosition();//El inCycle solo puede ser desactivado aqui
 
-            KillPlayerOnReached();
+            yield return new WaitForSeconds(aliveTime);
+            if(!inCycle) break;
+            isFollowing = false;
+            UnManifest();
+
+            yield return new WaitForSeconds(spawnFreq);
         }
-        else if (!navMeshAgent.isStopped)
+    }
+
+    void CalculateNextPosition()
+    {
+        Vector2 randomCircle = Random.insideUnitCircle;
+        Vector3 nextPosition = new Vector3(randomCircle.x, 0f, randomCircle.y).normalized;
+        nextPosition *= spawnRange;//Rango fijo
+        nextPosition += target.position;//Rango alrededor del jugador
+
+        NavMeshHit hit;
+
+        if (NavMesh.SamplePosition(nextPosition, out hit, twiceHeight, navMeshMask))
         {
-            navMeshAgent.isStopped = true;
+            Manifest(hit.position);
+            currentTries = 0;
         }
-    }
-
-    void KillPlayerOnReached()
-    {
-        Vector3 targetDistance = (movePositionTransform.position - transform.position);
-        bool isClose = IsCloseEnough(targetDistance, distanceToKillPlayer);
-
-        if (isClose && navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
+        else if (currentTries < POSITIONTRIES)
         {
-            PlayerManager.Instance.DisableControls();
-            EnemySpawnManager.Instance.OnCatchPlayer();
-            fadePanel.Fade(fadeTime);
+            currentTries++;
+            CalculateNextPosition();
+        }
+        else
+        {
+            Debug.LogWarning("Closest NavMesh of mask " + navMeshMask + " is too far away");
         }
     }
 
-    void OnScreenBlacked()
+    void Manifest(Vector3 position)
     {
-        CheckpointManager.Instance.RespawnPlayer();
-        EnemySpawnManager.Instance.OnAferCatch();
+        transform.position = position;
+        enemyBody.SetActive(true);
+        if (isFollowing && !persecutionAudio.isPlaying) persecutionAudio.Play();
     }
 
-    void OnFadeFinish()
+    void Follow()
     {
-        PlayerManager.Instance.EnableControls();
-        EnemySpawnManager.Instance.ableToSpawn = true;
-        EnemySpawnManager.Instance.StartFollowing();
+        if (isFollowing)
+        {
+            agent.isStopped = false;
+            agent.destination = target.position;
+        }
+        else
+        {
+            agent.isStopped = true;
+        }
     }
 
-    bool IsCloseEnough(Vector3 magnitude, float distance)
+    public void UnManifest()
     {
-        return Mathf.Abs(magnitude.sqrMagnitude) <= Mathf.Pow(distance, 2f);
+        enemyBody.SetActive(false);
+        if (persecutionAudio.isPlaying) persecutionAudio.Stop();
     }
+
+    public bool IsEnemyClose(float magnitude)
+    {
+        Vector3 distanceDiff = target.position - transform.position;
+        return Mathf.Abs(distanceDiff.sqrMagnitude) <= Mathf.Pow(magnitude,2f) && agent.pathStatus == NavMeshPathStatus.PathComplete && isFollowing;
+    }
+
+    public bool IsManifested() => enemyBody.activeSelf;
+
+    public void EndCycle()
+    {
+        inCycle = false;//Termina el ciclo.
+        isFollowing = false;
+    }
+
+    public void MakeAggresive()
+    {
+        agent.stoppingDistance = stoppingDistanceAggresive;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying)
+        {
+            Gizmos.DrawWireSphere(target.position,spawnRange);
+        }
+    }
+
+    #region Static Methods
+    public static void IntantiateEnemy(NavMeshAgent enemyPrefab, Vector3 position)
+    {
+        NavMeshHit hit;
+
+        if (NavMesh.SamplePosition(position, out hit, enemyPrefab.height * 2, 3))
+        {
+            NavMeshAgent clone = Instantiate<NavMeshAgent>(enemyPrefab, hit.position, enemyPrefab.transform.rotation);
+            clone.Warp(hit.position);
+            clone.transform.GetChild(0).localPosition = Vector3.zero;
+        }
+        else
+        {
+            Debug.LogWarning("Enemy isn´t close enough to NavMesh");
+        }
+    }
+    #endregion
 }
